@@ -40,18 +40,29 @@ public class StudentRepository {
         }
 //        for (StudentDTO studentDTO : studentDTOList) {
 //            if (id == studentDTO.getId()) {
-//                return studentDTOList.remove(studentDTO);
 //            }
 //        }
         return null;
     }
 
-    public StudentDTO update(StudentDTO studentDTO){
+    public void update(StudentDTO studentDTO){
         for (int i = 0; i<studentDTOList.size(); i++){
             if (studentDTO.getId() == studentDTOList.get(i).getId()){
-                return studentDTOList.set(i, studentDTO);
+                 studentDTOList.set(i, studentDTO);
             }
         }
-        return null;
+
+//        for (StudentDTO studentDTO1 : studentDTOList){
+//            if (studentDTO1.getId() == studentDTO.getId()){
+//                studentDTO1 = studentDTO;
+//            }
+//        }
+
+//        for (StudentDTO studentDTO1 : studentDTOList){
+//            if (studentDTO1.getId() == studentDTO.getId()){
+//                  studentDTO1.setStudentMobile(studentDTO.getStudentMobile());
+//
+//            }
+//        }
     }
 }

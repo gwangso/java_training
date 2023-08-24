@@ -88,15 +88,12 @@ public class StudentService {
             // 전화번호 입력
             System.out.println("수정할 전화번호 > ");
             String studentMobile = scanner.next();
-            System.out.println("전화번호를 '" + studentMobile + "' 로 바꾸시겠습니까?");
+            System.out.println("전화번호를 '" + studentMobile + "' 로 바꾸시겠습니까?(Y/y) >");
             String check = scanner.next();
             if (check.equals("y") || check.equals("Y") || check.equals("ㅛ")){
                 studentDTO.setStudentMobile(studentMobile);
-                if(studentRepository.update(studentDTO) != null){
-                    System.out.println("정보수정 완료");
-                }else {
-                    System.out.println("정보수정 실패");
-                }
+                studentRepository.update(studentDTO);
+                System.out.println("수정을 완료했습니다.");
             }else {
                 System.out.println("수정을 취소합니다.");
             }
