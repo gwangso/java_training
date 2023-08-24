@@ -50,26 +50,58 @@ public class StudentService {
         }
     }
 
-    public void delete(){
-        System.out.println("학생삭제");
-        System.out.println("삭제할 이름> ");
-        String deleteName = scanner.nextLine();
-        boolean findStudent = false;
-        for (StudentDTO studentDTO : studentRepository.findAll()){
-            if (studentDTO.getStudentName().equals(deleteName)) {
-                findStudent = true;
-                System.out.println("정말로 삭제하시겠습니까(Y,y) ?>");
-                String check = scanner.next();
-                if (check.equals("ㅛ") || check.equals("y") || check.equals("Y")) {
-                    studentRepository.delete(studentDTO);
-                } else {
-                    System.out.println("삭제를 취소합니다.");
-                }
-            }
-        }
-        if(!findStudent){
-            System.out.println("학생을 찾을 수 없습니다.");
+    public void findById(){
+        findAll();
+        System.out.println("조회 id > ");
+        // 조회할 id 입력
+        Long id = scanner.nextLong();
+        // 입력받은 id를 repository로 넘겨서 DTO 객체를 리턴받음.
+        StudentDTO studentDTO = studentRepository.findById(id);
+        // 조회결과 출력
+        if (studentDTO != null){
+            System.out.println("조회학생 정보" + studentDTO.toString());
+        } else {
+            System.out.println("조회할 학생이 없습니다.");
         }
     }
 
+    public void delete(){
+        findAll();
+        System.out.println("삭제 id > ");
+        // 삭제할 id 입력
+        Long id = scanner.nextLong();
+        if (studentRepository.delete(id) != null) {
+            System.out.println("삭제가 완료되었습니다.");
+        }else {
+            System.out.println("없는 학생입니다.");
+        }
+    }
+
+    public void update(){
+        findAll();
+        // 수정할 id 입력
+        System.out.println("수정 id > ");
+        Long id = scanner.nextLong();
+        StudentDTO studentDTO = studentRepository.findById(id);
+        if(studentDTO != null){
+            System.out.println("학생정보 : " + studentDTO.toString());
+            // 전화번호 입력
+            System.out.println("수정할 전화번호 > ");
+            String studentMobile = scanner.next();
+            System.out.println("전화번호를 '" + studentMobile + "' 로 바꾸시겠습니까?");
+            String check = scanner.next();
+            if (check.equals("y") || check.equals("Y") || check.equals("ㅛ")){
+                studentDTO.setStudentMobile(studentMobile);
+                if(studentRepository.update(studentDTO) != null){
+                    System.out.println("정보수정 완료");
+                }else {
+                    System.out.println("정보수정 실패");
+                }
+            }else {
+                System.out.println("수정을 취소합니다.");
+            }
+        }else {
+            System.out.println("없는 학생입니다.");
+        }
+    }
 }
