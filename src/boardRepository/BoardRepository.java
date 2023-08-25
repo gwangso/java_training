@@ -35,12 +35,13 @@ public class BoardRepository {
         }
     }
 
-    public BoardDTO findByTitle(String boardTitle){
+    public List<BoardDTO> findByTitle(String boardTitle){
+        List<BoardDTO> list = new ArrayList<>();
         for (BoardDTO boardDTO1 : boardDTOList){
             if (boardTitle.equals(boardDTO1.getBoardTitle())){
-                return boardDTO1;
+                list.add(boardDTO1);
             }
         }
-        return null;
+        return list;
     }
 }

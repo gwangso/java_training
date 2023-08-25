@@ -1,5 +1,6 @@
 package boardService;
 
+import java.util.List;
 import java.util.Scanner;
 
 import boardDTO.BoardDTO;
@@ -88,7 +89,7 @@ public class BoardService {
             if(id!=null){
                 BoardDTO boardDTO = boardRepository.findById(id);
                 if (boardDTO != null){
-                    System.out.println("수정할 제목 > ");
+                    System.out.print("수정할 제목 > ");
                     String newTitle = scanner.nextLine();
                     System.out.println("내용 > ");
                     String newContents = scanner.nextLine();
@@ -164,11 +165,16 @@ public class BoardService {
     public void search(){
         System.out.println("글제목 > ");
         String boardTitle = scanner.nextLine();
-        BoardDTO boardDTO = boardRepository.findByTitle(boardTitle);
-        if (boardDTO != null){
-            System.out.println(boardDTO.toString());
-            System.out.println("--------------------글내용--------------------");
-            System.out.println(boardDTO.getBoardContents());
+        List<BoardDTO> list = boardRepository.findByTitle(boardTitle);
+        if (list.size() != 0){
+            for (BoardDTO boardDTO : list){
+                long hits = boardDTO.getBoardHits();
+                hits++;
+                boardDTO.setBoardHits(hits);
+                System.out.println(boardDTO.toString());
+                System.out.println("--------------------글내용--------------------");
+                System.out.println(boardDTO.getBoardContents());
+            }
         }else {
             System.out.println("없는 글입니다.");
         }
