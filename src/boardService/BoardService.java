@@ -115,8 +115,8 @@ public class BoardService {
                 System.out.println("잘못입력하셨습니다.");
             }
         }
-
     }
+
     public void delete(){
         boolean run = true;
         while (run){
@@ -180,7 +180,7 @@ public class BoardService {
         }
     }
 
-
+    //문자열을 숫자로 변환하되 숫자가 아닌 문자 입력시 null 리턴
     public static Long numberTest(String input) {
         try {
             Long id = Long.parseLong(input);
