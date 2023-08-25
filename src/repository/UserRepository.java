@@ -60,6 +60,7 @@ public class UserRepository {
         for (UserDTO userDTO1 : userDTOList){
             if (userDTO.getUserId() == userDTO1.getUserId()){
                 userDTO1 = userDTO;
+                // 의미없는 문장이다.
                 break;
             }
         }

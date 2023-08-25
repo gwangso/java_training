@@ -133,6 +133,9 @@ public class UserService {
             String check = scanner.next();
             if(check.equals("y") || check.equals("Y") || check.equals("ㅛ")){
                 userDTO.setUserMobile(userMobile);
+                // 이미 setUserMobile에서 값을 변경해줬다
+                // 객체는 주소를 이용해 값을 출력한다.
+                // 해당 주소의 값이 변경되면 기존에 그 주소를 바라보고 있던 다른 객체도 변경된 값을 출력하게 된다.
 //                userRepository.update(userDTO);
                 System.out.println("정보수정이 완료되었습니다.");
             }else {
@@ -148,7 +151,7 @@ public class UserService {
         String check = scanner.next();
         if(check.equals("y") || check.equals("Y") || check.equals("ㅛ")){
             userRepository.delete(userDTO.getUserId());
-            System.out.println("ㅅㄱ");
+            System.out.println("수고하셨습니다.");
         }else {
             System.out.println("탈퇴를 취소했습니다. 정말 옳은 선택이에요");
         }
