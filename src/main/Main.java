@@ -71,7 +71,6 @@ public class Main {
                         System.out.println("메뉴를 잘못선택했습니다.");
                         break;
                 }
-
             }
         }
     }
