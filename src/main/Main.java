@@ -10,11 +10,9 @@ public class Main {
         UserService userService = new UserService();
         Scanner scanner = new Scanner(System.in);
         boolean run = true;
-        UserDTO login = new UserDTO();
         while (run){
             System.out.println("=================자바 회원 프로젝트=================");
-
-            if(login.getUserId() == null){
+            if(userService.getLoginUserDTO() == null){
                 System.out.println("1.회원가입 | 2.로그인 | 3.회원목록 | 4.회원정보삭제 | 0.종료");
                 System.out.print("메뉴선택 > ");
                 int menu = scanner.nextInt();
@@ -25,7 +23,7 @@ public class Main {
                         break;
                     case 2:
                         System.out.println("----------로그인----------");
-                        login = userService.login();
+                        userService.setLoginUserDTO(userService.login());
                         break;
                     case 3:
                         System.out.println("----------회원목록----------");
@@ -50,19 +48,20 @@ public class Main {
                 switch (menu){
                     case 1:
                         System.out.println("----------회원정보----------");
-                        userService.findUserInfo();
+                        userService.findUserInfo(userService.getLoginUserDTO());
                         break;
                     case 2:
                         System.out.println("----------회원정보수정----------");
-                        userService.update(login);
+                        userService.update(userService.getLoginUserDTO());
                         break;
                     case 3:
                         System.out.println("----------로그아웃----------");
-                        login = new UserDTO();
+                        userService.setLoginUserDTO(null);
                         break;
                     case 4:
                         System.out.println("----------회원탈퇴----------");
-                        userService.withdraw(login);
+                        userService.withdraw(userService.getLoginUserDTO());
+                        userService.setLoginUserDTO(null);
                         break;
                     case 0:
                         run = false;
@@ -74,10 +73,6 @@ public class Main {
                 }
 
             }
-
-
-
-            System.out.println("1.회원가입 | 2.로그인 | 3.회원목록 | 4.회원정보수정 | 5.회원정보삭제");
         }
     }
 }

@@ -11,19 +11,53 @@ public class UserService {
 
     UserRepository userRepository = new UserRepository();
 
-    public void save(){
-        System.out.print("이메일 > ");
-        String userEmail = scanner.next();
-        System.out.print("비밀번호 > ");
-        String userPassword = scanner.next();
-        System.out.print("이름 > ");
-        String userName = scanner.next();
-        System.out.print("전화번호 > ");
-        String userMobile = scanner.next();
+    private static UserDTO loginUserDTO = null;
 
-        UserDTO userDTO = new UserDTO(userEmail,userPassword,userName,userMobile);
-        userRepository.save(userDTO);
-        System.out.println("회원가입에 성공했습니다.");
+    public UserDTO getLoginUserDTO() {
+        return loginUserDTO;
+    }
+
+    public void setLoginUserDTO(UserDTO loginUserDTO) {
+        UserService.loginUserDTO = loginUserDTO;
+    }
+
+    public void save(){
+        boolean run = true;
+        while (run){
+            System.out.print("이메일 > ");
+            String userEmail = scanner.nextLine();
+            if(userEmail == "") {
+                System.out.println("회원가입을 종료합니다.");
+                break;
+            }
+            if(userRepository.findEmail(userEmail)){
+                System.out.println("이미 존재하는 이메일입니다.");
+                continue;
+            }
+
+            System.out.print("비밀번호 > ");
+            String userPassword = scanner.nextLine();
+            if(userPassword == "") {
+                System.out.println("회원가입을 종료합니다.");
+                break;
+            }
+            System.out.print("이름 > ");
+            String userName = scanner.nextLine();
+            if(userName == "") {
+                System.out.println("회원가입을 종료합니다.");
+                break;
+            }
+            System.out.print("전화번호 > ");
+            String userMobile = scanner.nextLine();
+            if(userMobile == "") {
+                System.out.println("회원가입을 종료합니다.");
+                break;
+            }
+            UserDTO userDTO = new UserDTO(userEmail,userPassword,userName,userMobile);
+            userRepository.save(userDTO);
+            System.out.println("회원가입에 성공했습니다.");
+            run = false;
+        }
     }
 
     public void findAll(){
@@ -37,13 +71,14 @@ public class UserService {
         String userEmail = scanner.next();
         System.out.print("Password > ");
         String userPassword = scanner.next();
-        UserDTO userDTO = userRepository.findByEmail(userEmail, userPassword);
+        UserDTO userDTO = userRepository.login(userEmail, userPassword);
         if(userDTO != null){
             System.out.println("로그인 성공");
+            loginUserDTO = userDTO;
             return userDTO;
         }else {
             System.out.println("로그인 실패");
-            return new UserDTO();
+            return null;
         }
     }
 
@@ -69,7 +104,7 @@ public class UserService {
         String userEmail = scanner.next();
         System.out.print("Password > ");
         String userPassword = scanner.next();
-        UserDTO userDTO = userRepository.findByEmail(userEmail, userPassword);
+        UserDTO userDTO = userRepository.login(userEmail, userPassword);
         if(userDTO != null){
             System.out.print("전화번호 수정 > ");
             String userMobile = scanner.next();
@@ -98,7 +133,7 @@ public class UserService {
             String check = scanner.next();
             if(check.equals("y") || check.equals("Y") || check.equals("ㅛ")){
                 userDTO.setUserMobile(userMobile);
-                userRepository.update(userDTO);
+//                userRepository.update(userDTO);
                 System.out.println("정보수정이 완료되었습니다.");
             }else {
                 System.out.println("정보수정을 취소합니다.");

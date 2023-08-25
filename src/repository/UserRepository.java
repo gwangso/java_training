@@ -25,7 +25,7 @@ public class UserRepository {
         return null;
     }
 
-    public UserDTO findByEmail(String userEmail, String userPassword){
+    public UserDTO login(String userEmail, String userPassword){
         for (UserDTO userDTO : userDTOList){
             if(userEmail.equals(userDTO.getUserEmail())){
                 if (userDTO.getUserPassword().equals(userPassword)) {
@@ -34,6 +34,17 @@ public class UserRepository {
             }
         }
         return null;
+    }
+
+    public boolean findEmail(String userEmail){
+        boolean find = false;
+        for (UserDTO userDTO : userDTOList){
+            if(userDTO.getUserEmail().equals(userEmail)){
+                find = true;
+                break;
+            }
+        }
+        return find;
     }
 
     public void delete(long id){
@@ -49,6 +60,7 @@ public class UserRepository {
         for (UserDTO userDTO1 : userDTOList){
             if (userDTO.getUserId() == userDTO1.getUserId()){
                 userDTO1 = userDTO;
+                break;
             }
         }
     }
