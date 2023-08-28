@@ -6,7 +6,7 @@ public class BoardDTO {
     private String boardWriter;
     private String boardContents;
     private String boardPass;
-    private Long boardHits;
+    private long boardHits = 0;
     private static Long num = 1L;
 
     public BoardDTO() {
@@ -18,7 +18,6 @@ public class BoardDTO {
         this.boardWriter = boardWriter;
         this.boardContents = boardContents;
         this.boardPass = boardPass;
-        this.boardHits = 0L;
     }
 
     public Long getId() {
@@ -85,7 +84,6 @@ public class BoardDTO {
                 "[ 글 번호 : " + id +
                 ", 글 제목 : " + boardTitle + " | " +
                 ", 작성자 : " + boardWriter + " | " +
-                ", 비밀번호 : " + boardPass + " | " +
                 ", 조회수 : " + boardHits + " ]"
         );
     }
