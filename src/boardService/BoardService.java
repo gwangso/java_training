@@ -12,12 +12,42 @@ public class BoardService {
     BoardRepository boardRepository = new BoardRepository();
 
     public void findAll(){
-        for (BoardDTO boardDTO : boardRepository.findAll()) {
-            System.out.println(boardDTO.toString());
+        while (true){
+            System.out.println();
+            System.out.println("-----------------글목록-----------------");
+            for (BoardDTO boardDTO : boardRepository.findAll()) {
+                boardDTO.print_land();
+            }
+            System.out.print("조회할 게시글 번호 > ");
+            String input = scanner.nextLine();
+            if(input == ""){
+                System.out.println("조회를 그만두겠습니다.");
+                break;
+            }
+            Long id = numberTest(input);
+            if(id!=null){
+                BoardDTO boardDTO = boardRepository.findById(id);
+                if (boardDTO != null){
+                    long hits = boardDTO.getBoardHits();
+                    hits ++;
+                    System.out.println();
+                    System.out.println("-----------------------------------");
+                    boardDTO.print_land();
+                    System.out.println(boardDTO.getBoardContents());
+                    System.out.println("-----------------------------------");
+                    boardDTO.setBoardHits(hits);
+                }else {
+                    System.out.println("없는 글입니다.");
+                }
+            }else {
+                System.out.println("잘못입력하셨습니다.");
+            }
         }
     }
 
     public void save(){
+        System.out.println();
+        System.out.println("-----------------글작성-----------------");
         while (true){
             System.out.print("글제목 > ");
             String boardTitle = scanner.nextLine();
@@ -52,33 +82,14 @@ public class BoardService {
         }
     }
 
-    public void findById() {
-        while (true){
-            System.out.print("조회할 게시글 번호 > ");
-            String input = scanner.nextLine();
-            if(input == ""){
-                System.out.println("조회를 그만두겠습니다.");
-                break;
-            }
-            Long id = numberTest(input);
-            if(id!=null){
-                BoardDTO boardDTO = boardRepository.findById(id);
-                if (boardDTO != null){
-                    long hits = boardDTO.getBoardHits();
-                    System.out.println(boardDTO.getBoardContents());
-                    hits ++;
-                    boardDTO.setBoardHits(hits);
-                }else {
-                    System.out.println("없는 글입니다.");
-                }
-            }else {
-                System.out.println("잘못입력하셨습니다.");
-            }
-        }
-    }
 
     public void update(){
+        System.out.println();
+        System.out.println("-----------------글수정-----------------");
         while (true) {
+            for (BoardDTO boardDTO : boardRepository.findAll()){
+                boardDTO.print_land();
+            }
             System.out.print("조회할 게시글 번호 > ");
             String input = scanner.nextLine();
             if(input == ""){
@@ -97,7 +108,7 @@ public class BoardService {
                         System.out.println("글수정을 취소합니다.");
                         break;
                     }
-                    System.out.println("수정하시겠습니까?(Y/y) > ");
+                    System.out.print("수정하시겠습니까?(Y/y) > ");
                     String check = scanner.nextLine();
                     if(check.equals("y") || check.equals("Y") || check.equals("ㅛ")){
                         if(newTitle != "") boardDTO.setBoardTitle(newTitle);
@@ -118,8 +129,12 @@ public class BoardService {
     }
 
     public void delete(){
+        System.out.println("-----------------글삭제-----------------");
         boolean run = true;
         while (run){
+            for (BoardDTO boardDTO : boardRepository.findAll()){
+                boardDTO.print_land();
+            }
             System.out.print("삭제할 게시글 번호 > ");
             String input = scanner.nextLine();
             if(input == ""){
@@ -134,8 +149,8 @@ public class BoardService {
                     while (cnt<5){
                         System.out.println("비밀번호를 입력하세요");
                         String password = scanner.nextLine();
-                        if (password.equals(boardDTO.getBoardPsss())){
-                            System.out.println("정말로 삭제하시겠습니까?(Y/y) > ");
+                        if (password.equals(boardDTO.getBoardPass())){
+                            System.out.print("정말로 삭제하시겠습니까?(Y/y) > ");
                             String check = scanner.nextLine();
                             if(check.equals("y") || check.equals("Y") || check.equals("ㅛ")){
                                 boardRepository.delete(boardDTO);
@@ -163,17 +178,20 @@ public class BoardService {
     }
 
     public void search(){
-        System.out.println("글제목 > ");
+        System.out.println();
+        System.out.println("-----------------검색-----------------");
+        System.out.print("제목 > ");
         String boardTitle = scanner.nextLine();
         List<BoardDTO> list = boardRepository.findByTitle(boardTitle);
         if (list.size() != 0){
             for (BoardDTO boardDTO : list){
                 long hits = boardDTO.getBoardHits();
                 hits++;
+                System.out.println("----------------------------------");
                 boardDTO.setBoardHits(hits);
-                System.out.println(boardDTO.toString());
-                System.out.println("--------------------글내용--------------------");
-                System.out.println(boardDTO.getBoardContents());
+                boardDTO.print_land();
+                System.out.println("작성글 : " + boardDTO.getBoardContents());
+                System.out.println("----------------------------------");
             }
         }else {
             System.out.println("없는 글입니다.");

@@ -20,7 +20,6 @@ public class Main {
                     break;
                 case "2":
                     boardService.findAll();
-                    boardService.findById();
                     break;
                 case "3":
                     boardService.update();

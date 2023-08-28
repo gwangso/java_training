@@ -5,19 +5,19 @@ public class BoardDTO {
     private String boardTitle;
     private String boardWriter;
     private String boardContents;
-    private String boardPsss;
+    private String boardPass;
     private Long boardHits;
     private static Long num = 1L;
 
     public BoardDTO() {
     }
 
-    public BoardDTO(String boardTitle, String boardWriter, String boardContents, String boardPsss) {
+    public BoardDTO(String boardTitle, String boardWriter, String boardContents, String boardPass) {
         this.id = num++;
         this.boardTitle = boardTitle;
         this.boardWriter = boardWriter;
         this.boardContents = boardContents;
-        this.boardPsss = boardPsss;
+        this.boardPass = boardPass;
         this.boardHits = 0L;
     }
 
@@ -53,12 +53,12 @@ public class BoardDTO {
         this.boardContents = boardContents;
     }
 
-    public String getBoardPsss() {
-        return boardPsss;
+    public String getBoardPass() {
+        return boardPass;
     }
 
-    public void setBoardPsss(String boardPsss) {
-        this.boardPsss = boardPsss;
+    public void setBoardPass(String boardPass) {
+        this.boardPass = boardPass;
     }
 
     public Long getBoardHits() {
@@ -75,8 +75,19 @@ public class BoardDTO {
                 "id=" + id +
                 ", boardTitle='" + boardTitle + '\'' +
                 ", boardWriter='" + boardWriter + '\'' +
-                ", boardPsss='" + boardPsss + '\'' +
+                ", boardPass='" + boardPass + '\'' +
                 ", boardHits='" + boardHits + '\'' +
                 '}';
     }
+    
+    public void print_land(){
+        System.out.println(
+                "[ 글 번호 : " + id +
+                ", 글 제목 : " + boardTitle + " | " +
+                ", 작성자 : " + boardWriter + " | " +
+                ", 비밀번호 : " + boardPass + " | " +
+                ", 조회수 : " + boardHits + " ]"
+        );
+    }
+    
 }
