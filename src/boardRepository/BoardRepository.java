@@ -26,6 +26,14 @@ public class BoardRepository {
         return null;
     }
 
+    public void boardHits(long id){
+        for (BoardDTO boardDTO : boardDTOList){
+            if(boardDTO.getId().equals(id)){
+                boardDTO.setBoardHits(boardDTO.getBoardHits()+1);
+            }
+        }
+    }
+
     public void delete(BoardDTO boardDTO){
         for (BoardDTO boardDTO1 : boardDTOList){
             if (boardDTO == boardDTO1){

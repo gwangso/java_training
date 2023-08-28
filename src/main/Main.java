@@ -11,7 +11,7 @@ public class Main {
         boolean run = true;
         while (run){
             System.out.println("= = = = = = = 게시판 = = = = = = =");
-            System.out.println("1.글작성 | 2.글목록 | 3.글수정 | 4.글삭제 | 5.검색 | 0.나가기");
+            System.out.println("1.글작성 | 2.글목록 | 3.글수정 | 4.글삭제 | 5.검색 | 6.샘플데이터 | 0.나가기");
             System.out.print("메뉴선택 > ");
             String menu = scanner.next();
             switch (menu){
@@ -29,6 +29,9 @@ public class Main {
                     break;
                 case "5":
                     boardService.search();
+                    break;
+                case "6":
+                    boardService.sampleData();
                     break;
                 case "0":
                     System.out.println("종료합니다");

@@ -28,11 +28,12 @@ public class BoardService {
             if(id!=null){
                 BoardDTO boardDTO = boardRepository.findById(id);
                 if (boardDTO != null){
-                    boardDTO.setBoardHits(boardDTO.getBoardHits()+1);
+                    boardRepository.boardHits(id);
                     System.out.println();
                     System.out.println("-----------------------------------");
-                    boardDTO.print_land();
+                    System.out.println("\t[ " + boardDTO.getBoardTitle() + " ]");
                     System.out.println(" > " + boardDTO.getBoardContents());
+                    System.out.println(" - " + boardDTO.getBoardWriter() + " -");
                     System.out.println("-----------------------------------");
                 }else {
                     System.out.println("없는 글입니다.");
@@ -183,7 +184,7 @@ public class BoardService {
         List<BoardDTO> list = boardRepository.findByTitle(boardTitle);
         if (list.size() != 0){
             for (BoardDTO boardDTO : list){
-                boardDTO.setBoardHits(boardDTO.getBoardHits()+1);
+                boardRepository.boardHits(boardDTO.getId());
                 System.out.println("----------------------------------");
                 boardDTO.print_land();
                 System.out.println("작성글 : " + boardDTO.getBoardContents());
@@ -191,6 +192,21 @@ public class BoardService {
             }
         }else {
             System.out.println("없는 글입니다.");
+        }
+    }
+
+    public void sampleData(){
+        for (int i = 1; i <=10 ; i++){
+            BoardDTO boardDTO = new BoardDTO("title"+i, "writer"+i , "contents"+i, ""+i);
+            boardRepository.save(boardDTO);
+        }
+        for (int i = 1; i <=5 ; i++){
+            BoardDTO boardDTO = new BoardDTO("title"+i, "writer"+i , "contents"+i, ""+i);
+            boardRepository.save(boardDTO);
+        }
+        for (int i = 1; i <=2 ; i++){
+            BoardDTO boardDTO = new BoardDTO("title"+i, "writer"+i , "contents"+i, ""+i);
+            boardRepository.save(boardDTO);
         }
     }
 
