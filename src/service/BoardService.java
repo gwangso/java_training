@@ -12,8 +12,7 @@ import static service.UserService.loginUserDTO;
 public class BoardService {
     Scanner scanner = new Scanner(System.in);
 
-    BoardRepository boardRepository = new BoardRepository();
-
+    public static BoardRepository boardRepository = new BoardRepository();
 
     public void findAll(){
         System.out.println();

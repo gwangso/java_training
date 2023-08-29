@@ -9,7 +9,7 @@ import DTO.UserDTO;
 
 import java.util.Scanner;
 
-public class UserService extends BoardService{
+public class UserService{
     Scanner scanner = new Scanner(System.in);
 
     UserRepository userRepository = new UserRepository();
@@ -90,7 +90,7 @@ public class UserService extends BoardService{
         long id = scanner.nextLong();
         UserDTO userDTO =  userRepository.findById(id);
         if (userDTO != null){
-            boardRepository.allDelete(userDTO);
+            BoardService.boardRepository.allDelete(userDTO);
             userRepository.delete(id);
             System.out.println("회원 삭제를 완료했습니다.");
         }else {
@@ -156,7 +156,7 @@ public class UserService extends BoardService{
         System.out.print("정말로 탈퇴하시겠습니까?(Y/y) > ");
         String check = scanner.next();
         if(check.equals("y") || check.equals("Y") || check.equals("ㅛ")){
-            boardRepository.allDelete(loginUserDTO);
+            BoardService.boardRepository.allDelete(loginUserDTO);
             userRepository.delete(loginUserDTO.getUserId());
             System.out.println("수고하셨습니다.");
         }else {
