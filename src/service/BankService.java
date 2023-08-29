@@ -79,6 +79,7 @@ public class BankService {
 
         // clientDTO 생성
         ClientDTO clientDTO = new ClientDTO(clientName, accountNumber, clientPass, now.format(dtf));
+        // AccountDTO 생성
         AccountDTO accountDTO = new AccountDTO(accountNumber, deposit, 0L, now.format(dtf));
         // clientDTO를 repositroy에 보낸 후 저장 성공 시 true, 실패시 false를 불러옴
         boolean result1 = bankRepository.saveClinet(clientDTO);
