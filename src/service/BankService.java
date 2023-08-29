@@ -63,6 +63,8 @@ public class BankService {
         }
         // 현재시간
         LocalDateTime now = LocalDateTime.now();
+
+        // 초기입금액
         Long deposit;
         while (true){
             System.out.print("초기입금액 > ");
@@ -72,7 +74,7 @@ public class BankService {
                 break;
             }
         }
-
+        System.out.println(deposit);
         // clientDTO 생성
         ClientDTO clientDTO = new ClientDTO(clientName, accountNumber, clientPass, now.format(dtf));
         AccountDTO accountDTO = new AccountDTO(accountNumber, deposit, 0L, now.format(dtf));
@@ -186,7 +188,11 @@ public class BankService {
                 System.out.println("거래내역이 없습니다.");
             }else {
                 for (AccountDTO accountDTO : list){
-                    System.out.println(accountDTO);
+                    if (accountDTO.getWithdraw() != 0){
+                        System.out.println("출금\t"+accountDTO.getWithdraw()+"원");
+                    }else if (accountDTO.getDeposit() != 0){
+                        System.out.println(("입금\t"+accountDTO.getDeposit()+"원"));
+                    }
                 }
             }
         }else {
@@ -197,8 +203,10 @@ public class BankService {
     public void clinetSampleData() {
         LocalDateTime now = LocalDateTime.now();
         for (int i = 1; i<=5; i++){
-            ClientDTO clientDTO = new ClientDTO("인간"+i, "account"+i, "pass"+i, now.format(dtf),i*1000L);
+            ClientDTO clientDTO = new ClientDTO("인간"+i, "account"+i, "pass"+i, now.format(dtf));
             bankRepository.saveClinet(clientDTO);
+            AccountDTO accountDTO = new AccountDTO(clientDTO.getAccountNumber(), i*1000L, 0L, now.format(dtf));
+            bankRepository.deposit(clientDTO, accountDTO);
         }
     }
 
