@@ -11,7 +11,7 @@ public class BankMain {
         boolean run = true;
         while(run){
             System.out.println("====================은행====================");
-            System.out.println("1.신규계좌 등록 | 2.잔액조회 | 3.입금 | 4.출금 | 5.입출금 내역 조회 | 0.종료");
+            System.out.println("1.신규계좌 등록 | 2.잔액조회 | 3.입금 | 4.출금 | 5.입출금 내역 조회 | 6.전체계좌목록 | 0.종료");
             System.out.print("메뉴 > ");
             String menu = scanner.nextLine();
             System.out.println();
@@ -40,9 +40,11 @@ public class BankMain {
                     System.out.println("--------------------전체계좌조회--------------------");
                     bankService.findAll();
                     break;
+                // 숨겨진 기능
                 case "7":
                     System.out.println("--------------------SampleData--------------------");
                     bankService.clinetSampleData();
+                    System.out.println("샘플데이터 생성완료");
                     break;
                 case "0":
                     run = false;
