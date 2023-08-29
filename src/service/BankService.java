@@ -97,12 +97,17 @@ public class BankService {
             System.out.println("알수없는 이유로 계좌 신설에 실패했습니다.");
         }
     }
+
+    // 계좌 체크
+    public ClientDTO checkAccount(){
+        System.out.print("계좌번호 > ");
+        String accountNumber = scanner.next();
+        return bankRepository.findbyAccount(accountNumber);
+    }
+
     // 계좌번호로 잔액 조회
     public void balanceInquery() {
-        System.out.print("조회할 계좌번호 > ");
-        String accountNumber = scanner.next();
-        // 계좌번호로 동일한 계좌 찾기
-        ClientDTO clientDTO = bankRepository.findbyAccount(accountNumber);
+        ClientDTO clientDTO = checkAccount();
         if (clientDTO != null){
             System.out.println("이름 : " + clientDTO.getClientName());
             System.out.println("잔액 : " + clientDTO.getBalance());
@@ -114,9 +119,7 @@ public class BankService {
     // 입금
     public void deposit() {
         //계좌 찾기
-        System.out.print("입금 계좌번호 > ");
-        String accountNumber = scanner.next();
-        ClientDTO clientDTO = bankRepository.findbyAccount(accountNumber);
+        ClientDTO clientDTO = checkAccount();
         if (clientDTO == null){
             System.out.println("없는 계좌번호입니다.");
         }else {
@@ -141,7 +144,7 @@ public class BankService {
             }else {
                 System.out.println(deposit + "원을 입금합니다.");
                 LocalDateTime now = LocalDateTime.now();
-                AccountDTO accountDTO = new AccountDTO(accountNumber, deposit, 0L, now.format(dtf));
+                AccountDTO accountDTO = new AccountDTO(clientDTO.getAccountNumber(), deposit, 0L, now.format(dtf));
                 boolean result = bankRepository.deposit(clientDTO, accountDTO);
                 if (result) {
                     System.out.println("입금이 완료되었습니다.");
@@ -156,9 +159,7 @@ public class BankService {
     // 출금
     public void withdraw() {
         // 출금할 계좌 찾기
-        System.out.print("출금 계좌번호 > ");
-        String accountNumber = scanner.next();
-        ClientDTO clientDTO = bankRepository.findbyAccount(accountNumber);
+        ClientDTO clientDTO = checkAccount();
         if (clientDTO == null){
             System.out.println("없는 계좌번호입니다.");
         }else {
@@ -188,7 +189,7 @@ public class BankService {
                             String ok = scanner.next();
                             if(ok.equals("Y") || ok.equals("y") || ok.equals("ㅛ")){
                                 LocalDateTime now = LocalDateTime.now();
-                                AccountDTO accountDTO = new AccountDTO(accountNumber, 0L, withdraw, now.format(dtf));
+                                AccountDTO accountDTO = new AccountDTO(clientDTO.getAccountNumber(), 0L, withdraw, now.format(dtf));
                                 boolean result = bankRepository.withdraw(clientDTO, accountDTO);
                                 if (result) {
                                     System.out.println("출금이 완료되었습니다.");
@@ -231,6 +232,7 @@ public class BankService {
         System.out.print("조회할 계좌번호 > ");
         String accountNumber = scanner.next();
         ClientDTO clientDTO = bankRepository.findbyAccount(accountNumber);
+
         if (clientDTO != null){
             // 계좌 정보 출력
             System.out.println("[ 고객명 : " + clientDTO.getClientName() +

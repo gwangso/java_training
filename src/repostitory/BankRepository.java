@@ -10,7 +10,6 @@ public class BankRepository {
     private List<ClientDTO> clientDTOList = new ArrayList<>();
     private List<AccountDTO> accountDTOList = new ArrayList<>();
 
-
     public boolean saveClinet(ClientDTO clientDTO) {
         return clientDTOList.add(clientDTO);
     }
