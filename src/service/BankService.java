@@ -4,8 +4,6 @@ import dto.AccountDTO;
 import dto.ClientDTO;
 import repostitory.BankRepository;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,20 +13,14 @@ public class BankService {
     BankRepository bankRepository = new BankRepository();
 
     public void clientSave() {
-        // 고객이름 입력 (공백시 계좌생성 중단)
+        // 고객이름 입력
         System.out.print("고객이름 > ");
         String clientName = scanner.next();
-        if (clientName==""){
-            System.out.println("계좌생성을 취소합니다.");
-            return;
-        }
-        // 계좌번호 입력 (공백시 계좌생성 중단)
+
+        // 계좌번호 입력
         System.out.print("계좌번호 > ");
         String accountNumber = scanner.next();
-        if (accountNumber==""){
-            System.out.println("계좌생성을 취소합니다.");
-            return;
-        }
+
         // 계좌중복체크 (중복시 계좌생성 중단)
         boolean check = bankRepository.accountCheck(accountNumber);
         if(!check){
@@ -39,10 +31,7 @@ public class BankService {
         // 계좌비밀번호 입력 (공백시 계좌생성 중단)
         System.out.print("계좌비밀번호 > ");
         String clientPass = scanner.next();
-        if (clientPass==""){
-            System.out.println("계좌생성을 취소합니다.");
-            return;
-        }
+
         // 계좌 비밀번호 확인(5회 틀릴시 계좌생성 중단)
         int cnt = 0;
         while (true) {
@@ -124,11 +113,6 @@ public class BankService {
             // 입금액 입력
             System.out.print("입금액 > ");
             String money = scanner.next();
-            // 공백일 시 입금취소하려 했지만 next는 엔터키만 누르면 이를 인식 못함
-//            if (money == ""){
-//                System.out.println("입금을 취소합니다.");
-//                return;
-//            }
             // 입력받은 문자를 숫자로 반환(문자입력시 0 반환)
             Long deposit = numbercheck(money);
             // null일 경우 입금 취소
@@ -169,11 +153,6 @@ public class BankService {
                     // 출금액 설정
                     System.out.print("출금액 > ");
                     String money = scanner.next();
-                    // 공백일 시 출금취소하려 했지만 next는 엔터키만 누르면 이를 인식 못함
-                    if (money == ""){
-                        System.out.println("입금을 취소합니다.");
-                        return;
-                    }
                     // 출금액 숫자인지 판별 (문자입력시 0 출력)
                     long withdraw = numbercheck(money);
                     // 출금액이 0 이상일 경우
@@ -239,7 +218,7 @@ public class BankService {
             // 해당 계좌의 거래내역만 출력
             List<AccountDTO> list = bankRepository.findAccountByAccount(clientDTO.getAccountNumber());
             // 받아온 list에 정보가 없으면 거래내역 없다 출력
-            if (list.size()==0){
+            if (list.isEmpty()){
                 System.out.println("거래내역이 없습니다.");
             // 받아온 거래내역에 정보가 입금인지 출력인지 구분, 입금액/출금액 출력
             }else {
