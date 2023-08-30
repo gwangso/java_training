@@ -12,12 +12,12 @@ public class ClientDTO {
     public ClientDTO(){
     }
 
-    public ClientDTO(String clientName, String accountNumber, String clientPass, String clientCreateedAt) {
+    public ClientDTO(String clientName, String accountNumber, String clientPass) {
         this.id = num1++;
         this.clientName = clientName;
         this.accountNumber = accountNumber;
         this.clientPass = clientPass;
-        this.clientCreateedAt = clientCreateedAt;
+        this.clientCreateedAt = Util.createdAtGenerator();
     }
 
     public ClientDTO(String clientName, String accountNumber, String clientPass, String clientCreateedAt, Long balance) {

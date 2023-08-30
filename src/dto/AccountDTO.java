@@ -12,12 +12,12 @@ public class AccountDTO {
     public AccountDTO(){
     }
 
-    public AccountDTO(String accountNumber, Long deposit, Long withdraw, String bankingAt) {
+    public AccountDTO(String accountNumber, Long deposit, Long withdraw) {
         this.id = num2++;
         this.accountNumber = accountNumber;
         this.deposit = deposit;
         this.withdraw = withdraw;
-        this.bankingAt = bankingAt;
+        this.bankingAt = Util.createdAtGenerator();
     }
 
     public Long getId() {

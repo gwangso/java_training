@@ -14,8 +14,6 @@ public class BankService {
 
     BankRepository bankRepository = new BankRepository();
 
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
-
     public void clientSave() {
         // 고객이름 입력 (공백시 계좌생성 중단)
         System.out.print("고객이름 > ");
@@ -62,7 +60,6 @@ public class BankService {
             }
         }
         // 현재시간
-        LocalDateTime now = LocalDateTime.now();
 
         // 초기입금액
         Long deposit;
@@ -78,9 +75,9 @@ public class BankService {
         }
 
         // clientDTO 생성
-        ClientDTO clientDTO = new ClientDTO(clientName, accountNumber, clientPass, now.format(dtf));
+        ClientDTO clientDTO = new ClientDTO(clientName, accountNumber, clientPass);
         // AccountDTO 생성
-        AccountDTO accountDTO = new AccountDTO(accountNumber, deposit, 0L, now.format(dtf));
+        AccountDTO accountDTO = new AccountDTO(accountNumber, deposit, 0L);
         // clientDTO를 repositroy에 보낸 후 저장 성공 시 true, 실패시 false를 불러옴
         boolean result1 = bankRepository.saveClinet(clientDTO);
         boolean result2 = bankRepository.deposit(clientDTO, accountDTO);
@@ -144,8 +141,7 @@ public class BankService {
             // 입금액이 null이 아니고(문자 안받음) 0보다 클경우 입금시도
             }else {
                 System.out.println(deposit + "원을 입금합니다.");
-                LocalDateTime now = LocalDateTime.now();
-                AccountDTO accountDTO = new AccountDTO(clientDTO.getAccountNumber(), deposit, 0L, now.format(dtf));
+                AccountDTO accountDTO = new AccountDTO(clientDTO.getAccountNumber(), deposit, 0L);
                 boolean result = bankRepository.deposit(clientDTO, accountDTO);
                 if (result) {
                     System.out.println("입금이 완료되었습니다.");
@@ -189,8 +185,7 @@ public class BankService {
                             System.out.print(withdraw + "원을 출금하시겠습니까?(Y/y) > ");
                             String ok = scanner.next();
                             if(ok.equals("Y") || ok.equals("y") || ok.equals("ㅛ")){
-                                LocalDateTime now = LocalDateTime.now();
-                                AccountDTO accountDTO = new AccountDTO(clientDTO.getAccountNumber(), 0L, withdraw, now.format(dtf));
+                                AccountDTO accountDTO = new AccountDTO(clientDTO.getAccountNumber(), 0L, withdraw);
                                 boolean result = bankRepository.withdraw(clientDTO, accountDTO);
                                 if (result) {
                                     System.out.println("출금이 완료되었습니다.");
@@ -290,11 +285,10 @@ public class BankService {
 
     // 고객 샘플데이터
     public void clinetSampleData() {
-        LocalDateTime now = LocalDateTime.now();
         for (int i = 1; i<=5; i++){
-            ClientDTO clientDTO = new ClientDTO("인간"+i, "account"+i, "pass"+i, now.format(dtf));
+            ClientDTO clientDTO = new ClientDTO("인간"+i, "account"+i, "pass"+i);
             bankRepository.saveClinet(clientDTO);
-            AccountDTO accountDTO = new AccountDTO(clientDTO.getAccountNumber(), i*1000L, 0L, now.format(dtf));
+            AccountDTO accountDTO = new AccountDTO(clientDTO.getAccountNumber(), i*1000L, 0L);
             bankRepository.deposit(clientDTO, accountDTO);
         }
     }
